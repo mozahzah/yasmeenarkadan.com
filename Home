@@ -114,7 +114,7 @@
         {
             return element;
         }
-        
+        console.log(element);
         console.log(element.parentElement);
         if (element.parentElement) 
         {
