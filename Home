@@ -136,7 +136,7 @@
             var isTouched = false;
             var element = null;
             
-            document.addEventListener('touchstart', 
+            document.addEventListener('touchend', 
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch started 7');
