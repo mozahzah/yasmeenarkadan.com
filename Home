@@ -134,11 +134,12 @@
         if (isMobile)
         {
             var isTouchExecuted = false;
-            var element = null;
+            var touchedTarget = null;
+            var capturedElement = null;
             var isScrolling = false;
 
             document.addEventListener('touchstart', function(event) {
-                element = findParentWithClass(event.touches[0].target, "collection-item");
+                touchedTarget = findParentWithClass(event.touches[0].target, "collection-item");
                 isScrolling = false;
             });
 
@@ -153,31 +154,32 @@
                 {
                     if (!isTouchExecuted)
                     {
-                        if (element)
+                        if (touchedTarget)
                         {
-                            const image = element.querySelector(".project-image");
-                            const info = element.querySelector(".project-information");
+                            capturedElement = touchedTarget;
+                            const image = capturedElement.querySelector(".project-image");
+                            const info = capturedElement.querySelector(".project-information");
                             const imageRect = image.getBoundingClientRect();
                             const imageLeft = imageRect.left;
                             const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
 
                             moveHorizontal(image, info, isLeft);
-                            setOpacityOnOtherElements(element, globalTargetOpacity);
+                            setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
                             isTouched = true;
                         }
                     }
                     else 
                     {
-                        const image = element.querySelector(".project-image");
-                        const info = element.querySelector(".project-information");
+                        const image = capturedElement.querySelector(".project-image");
+                        const info = capturedElement.querySelector(".project-information");
                         const imageRect = image.getBoundingClientRect();
                         const imageLeft = imageRect.left;
                         const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
 
                         resetHorizontal(image, info);
-                        setOpacityOnOtherElements(element, "1");
+                        setOpacityOnOtherElements(capturedElement, "1");
 
-                        element = null;
+                        capturedElement = null;
                         isTouched = false;
                     }
                 }
