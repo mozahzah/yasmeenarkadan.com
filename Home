@@ -165,7 +165,7 @@
 
                             moveHorizontal(image, info, isLeft);
                             setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
-                            isTouched = true;
+                            isTouchExecuted = true;
                         }
                     }
                     else 
@@ -180,7 +180,7 @@
                         setOpacityOnOtherElements(capturedElement, "1");
 
                         capturedElement = null;
-                        isTouched = false;
+                        isTouchExecuted = false;
                     }
                 }
             }, false);
