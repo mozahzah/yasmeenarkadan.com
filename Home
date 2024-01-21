@@ -21,33 +21,77 @@
         return 1 - Math.pow(1 - t, 2);
     }
 
-    $(document).ready(window.addEventListener("DOMContentLoaded", init));
+    window.onload(OnPageLoad);
 
-    function init()
+    function OnPageLoad()
     {	
         projContainers = document.querySelectorAll(".collection-item");
+
+        const isMobile = $(window).width() <= 768;
+        if (isMobile)
+        {
+            document.addEventListener('touchstart', 
+            function HandleDocumentTouchStart(event)
+            {
+                const touch = event.touches[0];
+                
+                if (event.touches[0].target != image)
+                {
+                    resetHorizontal(image, info);
+                    setOpacityOnOtherElements(element, "1");
+                }
+                else 
+                {
+                    moveHorizontal(image, info, isLeft);
+                    setOpacityOnOtherElements(element, globalTargetOpacity);
+                }
+
+            }, false);
+        }
+
         projContainers.forEach(function (element) 
         {
             if (element) 
             {
-                const isMobile = $(window).width() <= 768;
-
                 const image = element.querySelector(".project-image");
                 const info = element.querySelector(".project-information");
                 const imageRect = image.getBoundingClientRect();
                 const imageLeft = imageRect.left;
                 const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
                 
-                info.onmouseenter = function () 
+                if (isMobile)
                 {
-                    moveHorizontal(image, info, isLeft);
-                    setOpacityOnOtherElements(element, globalTargetOpacity);
-                };
-                info.onmouseleave = function () 
+                    document.addEventListener('touchstart', 
+                    function HandleDocumentTouchStart(event)
+                    {
+                        const touch = event.touches[0];
+                        
+                        if (event.touches[0].target != image)
+                        {
+                            resetHorizontal(image, info);
+                            setOpacityOnOtherElements(element, "1");
+                        }
+                        else 
+                        {
+                            moveHorizontal(image, info, isLeft);
+                            setOpacityOnOtherElements(element, globalTargetOpacity);
+                        }
+
+                    }, false);
+                }
+                else 
                 {
-                    resetHorizontal(image, info);
-                    setOpacityOnOtherElements(element, "1");
-                };
+                    info.onmouseenter = function () 
+                    {
+                        moveHorizontal(image, info, isLeft);
+                        setOpacityOnOtherElements(element, globalTargetOpacity);
+                    };
+                    info.onmouseleave = function () 
+                    {
+                        resetHorizontal(image, info);
+                        setOpacityOnOtherElements(element, "1");
+                    };
+                }
             }
         });
     }
