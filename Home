@@ -146,7 +146,7 @@
                 isScrolling = true;
             });
             
-            document.addEventListener('touchstart', 
+            document.addEventListener('touchend', 
             function HandleDocumentTouchStart(event)
             {
                 if (!isScrolling)
