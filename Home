@@ -21,96 +21,22 @@
         return 1 - Math.pow(1 - t, 2);
     }
 
-    function OnLoad()
-    {	
-        projContainers = document.querySelectorAll(".collection-item");
-
-        const isMobile = $(window).width() <= 768;
-        if (isMobile)
-        {
-            document.addEventListener('touchstart', 
-            function HandleDocumentTouchStart(event)
-            {
-                const touch = event.touches[0];
-                
-                if (event.touches[0].target != image)
-                {
-                    resetHorizontal(image, info);
-                    setOpacityOnOtherElements(element, "1");
-                }
-                else 
-                {
-                    moveHorizontal(image, info, isLeft);
-                    setOpacityOnOtherElements(element, globalTargetOpacity);
-                }
-
-            }, false);
-        }
-
-        projContainers.forEach(function (element) 
-        {
-            if (element) 
-            {
-                console.log(element);
-                const image = element.querySelector(".project-image");
-                const info = element.querySelector(".project-information");
-                const imageRect = image.getBoundingClientRect();
-                const imageLeft = imageRect.left;
-                const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
-                
-                if (isMobile)
-                {
-                    document.addEventListener('touchstart', 
-                    function HandleDocumentTouchStart(event)
-                    {
-                        const touch = event.touches[0];
-                        
-                        if (event.touches[0].target != image)
-                        {
-                            resetHorizontal(image, info);
-                            setOpacityOnOtherElements(element, "1");
-                        }
-                        else 
-                        {
-                            moveHorizontal(image, info, isLeft);
-                            setOpacityOnOtherElements(element, globalTargetOpacity);
-                        }
-
-                    }, false);
-                }
-                else 
-                {
-                    info.onmouseenter = function () 
-                    {
-                        moveHorizontal(image, info, isLeft);
-                        setOpacityOnOtherElements(element, globalTargetOpacity);
-                    };
-                    info.onmouseleave = function () 
-                    {
-                        resetHorizontal(image, info);
-                        setOpacityOnOtherElements(element, "1");
-                    };
-                }
-            }
-        });
-    }
-
-   function setOpacityOnOtherElements(element, targetOpacity) 
-   {
-        $(projContainers).not(element).stop().animate(
-            { opacity: targetOpacity },
-            {
-                duration: 300,
-                step: function (now, fx) {
-                    if (fx.prop === "opacity") {
-                        $(this).css("opacity", now);
-                    }
-                },
-                queue: false
-            }
-        );
-    }
-
+    function setOpacityOnOtherElements(element, targetOpacity) 
+    {
+         $(projContainers).not(element).stop().animate(
+             { opacity: targetOpacity },
+             {
+                 duration: 300,
+                 step: function (now, fx) {
+                     if (fx.prop === "opacity") {
+                         $(this).css("opacity", now);
+                     }
+                 },
+                 queue: false
+             }
+         );
+     }
+ 
     function resetHorizontal(image, info) 
     {
         clearInterval(currentMoveAnimId);
@@ -142,9 +68,9 @@
             }
         }
     }
-
-   function moveHorizontal(image, info, isLeft) 
-   {
+ 
+    function moveHorizontal(image, info, isLeft) 
+    {
         // instant
         image.style.zIndex = "10";
         clearInterval(currentMoveAnimId);
@@ -177,7 +103,81 @@
                 }
 
                 info.style.opacity = t;
-                pos += moveIncrement; // Adjust the moveIncrement as needed
+                pos += moveIncrement;
             }
         }
     }
+
+    function OnLoad()
+    {	
+        projContainers = document.querySelectorAll(".collection-item");
+
+        const isMobile = $(window).width() <= 768;
+        if (isMobile)
+        {
+            var isTouched = false;
+            document.addEventListener('touchstart', 
+            function HandleDocumentTouchStart(event)
+            {
+                const touchedTarget = event.touches[0];
+                var element = null;
+
+                if (!isTouched)
+                {
+                    if (touchedTarget.className === ".collection-item")
+                    {
+                        element = touchedTarget
+                        const image = element.querySelector(".project-image");
+                        const info = element.querySelector(".project-information");
+                        const imageRect = image.getBoundingClientRect();
+                        const imageLeft = imageRect.left;
+                        const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
+
+                        moveHorizontal(image, info, isLeft);
+                        setOpacityOnOtherElements(element, globalTargetOpacity);
+                        isTouched = true;
+                    }
+                }
+                else 
+                {
+                    const image = element.querySelector(".project-image");
+                    const info = element.querySelector(".project-information");
+                    const imageRect = image.getBoundingClientRect();
+                    const imageLeft = imageRect.left;
+                    const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
+
+                    resetHorizontal(image, info);
+                    setOpacityOnOtherElements(element, "1");
+
+                    element = null;
+                    isTouched = false;
+                }
+            }, false);
+        }
+        else
+        {
+            projContainers.forEach(function (element) 
+            {
+                if (element) 
+                {
+                    const image = element.querySelector(".project-image");
+                    const info = element.querySelector(".project-information");
+                    const imageRect = image.getBoundingClientRect();
+                    const imageLeft = imageRect.left;
+                    const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
+                    
+                    info.onmouseenter = function () 
+                    {
+                        moveHorizontal(image, info, isLeft);
+                        setOpacityOnOtherElements(element, globalTargetOpacity);
+                    };
+                    info.onmouseleave = function () 
+                    {
+                        resetHorizontal(image, info);
+                        setOpacityOnOtherElements(element, "1");
+                    };
+                }
+            });
+        }
+    }
+
