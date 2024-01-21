@@ -115,7 +115,7 @@
             return element;
         }
         console.log(element);
-        console.log(element.parentNode);
+        console.log(element.offsetParent);
         if (element.parentElement) 
         {
             return findParentWithClass(element.parentElement, className);
