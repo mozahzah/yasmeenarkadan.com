@@ -110,11 +110,15 @@
 
     function findParentWithClass(element, className) 
     {
-        if (element.classList.contains(className)) {
+        console.log(element.classList);
+        if (element.classList.contains(className)) 
+        {
             return element;
         }
     
-        if (element.parentElement) {
+        if (element.parentElement) 
+        {
+            //console.log(element.parentElement.classList)
             return findParentWithClass(element.parentElement, className);
         }
     
@@ -133,7 +137,7 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch started');
-                const touchTarget = findParentWithClass(event.touches[0], "collection-item");
+                const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
                 var element = null;
                 
                 if (!isTouched)
