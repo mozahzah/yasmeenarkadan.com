@@ -133,13 +133,14 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch stated');
-                const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
+                const touchTarget = findParentWithClass(event.touches[0], "collection-item");
                 var element = null;
-                console.log(touchTarget);
+                
                 if (!isTouched)
                 {
                     if (touchTarget)
                     {
+                        console.log(touchTarget);
                         element = touchTarget;
                         const image = element.querySelector(".project-image");
                         const info = element.querySelector(".project-information");
