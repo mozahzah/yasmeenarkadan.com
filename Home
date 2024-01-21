@@ -110,6 +110,9 @@
 
     function findParentWithClass(element, className) 
     {
+        console.log(element);
+        console.log(element.parentElement);
+        
         if (element.className == className) 
         {
             return element;
@@ -137,8 +140,7 @@
                 console.log('touch started 7');
                 const touchTarget = findParentWithClass(event.touches[0].target, ".collection-item");
                 var element = null;
-                console.log(touchTarget);
-                console.log(touchTarget.parentElement);
+                
                 if (!isTouched)
                 {
                     if (touchTarget)
