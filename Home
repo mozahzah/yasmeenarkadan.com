@@ -120,7 +120,7 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch stated');
-                const touchedTarget = event.touches[0];
+                const touchedTarget = event.touches[1];
                 var element = null;
                 console.log(touchedTarget);
                 if (!isTouched)
