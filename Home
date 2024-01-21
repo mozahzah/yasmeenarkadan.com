@@ -114,7 +114,8 @@
         {
             return element;
         }
-    
+        
+        console.log(element.parentElement);
         if (element.parentElement) 
         {
             return findParentWithClass(element.parentElement, className);
