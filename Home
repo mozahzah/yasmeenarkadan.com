@@ -112,7 +112,7 @@
     {
         console.log(element);
         console.log(element.parentElement);
-        
+
         if (element.className.indexOf(className) !== -1) 
         {
             return element;
@@ -134,12 +134,13 @@
         if (isMobile)
         {
             var isTouched = false;
+            var element = null;
+            
             document.addEventListener('touchstart', 
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch started 7');
                 const touchTarget = findParentWithClass(event.touches[0].target, "collection-item");
-                var element = null;
                 
                 if (!isTouched)
                 {
