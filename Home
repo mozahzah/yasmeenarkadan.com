@@ -110,21 +110,15 @@
 
     function findParentWithClass(element, className) 
     {
-        var elementToReturn = null;
-        if (element.classList.contains(className)) 
-        {
-            elementToReturn = element;
-        }
-        
-        if (elementToReturn == null)
-        { 
-            if (element.parentElement) 
-            {
-                elementToReturn = findParentWithClass(element.parentElement, className);
-            }
+        if (element.classList.contains(className)) {
+            return element;
         }
     
-        return elementToReturn;
+        if (element.parentElement) {
+            return findParentWithClass(element.parentElement, className);
+        }
+    
+        return null;
     }
 
     function OnLoad()
