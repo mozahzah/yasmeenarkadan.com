@@ -110,7 +110,7 @@
 
     function findParentWithClass(element, className) 
     {
-        console.log(element.classList);
+        console.log(element);
         if (element.classList.contains(className)) 
         {
             return element;
