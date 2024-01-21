@@ -113,7 +113,7 @@
         console.log(element);
         console.log(element.parentElement);
         
-        if (element.className == className) 
+        if (element.className.indexOf(className) !== -1) 
         {
             return element;
         }
@@ -138,7 +138,7 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch started 7');
-                const touchTarget = findParentWithClass(event.touches[0].target, ".collection-item");
+                const touchTarget = findParentWithClass(event.touches[0].target, "collection-item");
                 var element = null;
                 
                 if (!isTouched)
