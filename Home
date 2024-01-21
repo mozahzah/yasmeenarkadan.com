@@ -135,7 +135,7 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch started 6');
-                const touchTarget = event.touches[0];//, "collection-item");
+                const touchTarget = findParentWithClass(event.touches[0].target, "collection-item");
                 var element = null;
                 console.log(touchTarget);
                 console.log(touchTarget.parentElement);
