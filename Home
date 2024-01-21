@@ -139,7 +139,7 @@
                 console.log('touch started');
                 const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
                 var element = null;
-                console.log(event.touches[0].classList);
+                console.log(event.touches[0]);
                 if (!isTouched)
                 {
                     if (touchTarget)
