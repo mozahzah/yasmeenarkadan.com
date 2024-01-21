@@ -51,6 +51,7 @@
         {
             if (element) 
             {
+                console.log(element);
                 const image = element.querySelector(".project-image");
                 const info = element.querySelector(".project-information");
                 const imageRect = image.getBoundingClientRect();
