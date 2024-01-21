@@ -108,6 +108,25 @@
         }
     }
 
+    function findParentWithClass(element, className) 
+    {
+        var elementToReturn = null;
+        if (element.classList.contains(className)) 
+        {
+            elementToReturn = element;
+        }
+        
+        if (elementToReturn == null)
+        { 
+            if (element.parentElement) 
+            {
+                elementToReturn = findParentWithClass(element.parentElement, className);
+            }
+        }
+    
+        return elementToReturn;
+    }
+
     function OnLoad()
     {	
         projContainers = document.querySelectorAll(".collection-item");
@@ -120,14 +139,14 @@
             function HandleDocumentTouchStart(event)
             {
                 console.log('touch stated');
-                const touchedTarget = event.touches[1];
+                const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
                 var element = null;
                 console.log(touchedTarget);
                 if (!isTouched)
                 {
-                    if (touchedTarget.className === ".collection-item")
+                    if (touchTarget)
                     {
-                        element = touchedTarget
+                        element = touchTarget;
                         const image = element.querySelector(".project-image");
                         const info = element.querySelector(".project-information");
                         const imageRect = image.getBoundingClientRect();
