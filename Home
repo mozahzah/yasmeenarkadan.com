@@ -136,7 +136,7 @@
             document.addEventListener('touchstart', 
             function HandleDocumentTouchStart(event)
             {
-                console.log('touch started');
+                console.log('touch started 1');
                 const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
                 var element = null;
                 console.log(event.touches[0]);
