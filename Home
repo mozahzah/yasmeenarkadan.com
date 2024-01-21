@@ -111,14 +111,13 @@
     function findParentWithClass(element, className) 
     {
         console.log(element);
-        if (element.classList.contains(className)) 
+        if (element.className == className) 
         {
             return element;
         }
     
         if (element.parentElement) 
         {
-            //console.log(element.parentElement.classList)
             return findParentWithClass(element.parentElement, className);
         }
     
