@@ -21,9 +21,7 @@
         return 1 - Math.pow(1 - t, 2);
     }
 
-    window.onload(OnPageLoad);
-
-    function OnPageLoad()
+    window.onload = function()
     {	
         projContainers = document.querySelectorAll(".collection-item");
 
