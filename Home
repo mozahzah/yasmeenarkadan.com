@@ -134,7 +134,7 @@
             document.addEventListener('touchstart', 
             function HandleDocumentTouchStart(event)
             {
-                console.log('touch started 1');
+                console.log('touch started 2');
                 const touchTarget = findParentWithClass(event.touches[0], ".collection-item");
                 var element = null;
                 console.log(touchTarget);
@@ -149,7 +149,6 @@
                         const imageLeft = imageRect.left;
                         const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
 
-                        console.log(element);
                         moveHorizontal(image, info, isLeft);
                         setOpacityOnOtherElements(element, globalTargetOpacity);
                         isTouched = true;
