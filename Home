@@ -1,0 +1,120 @@
+    // Init Variables
+    var projContainers = document.querySelectorAll(".collection-item");
+    var moveIncrement = 7;
+    var opacityIncrement = 10 / 100;
+    var globalTargetOpacity = "0.0";
+    var currentMoveAnimId = null;
+    var currentOpAnimId = null;
+    var posOffset = 60;
+    
+    // Ease-In Function
+    function easeIn(t) {
+        return t * t;
+    }
+
+    // Ease-Out Function
+    function easeOut(t) {
+        return 1 - Math.pow(1 - t, 2);
+    }
+
+    $(document).ready(window.addEventListener("DOMContentLoaded", init));
+
+    function init() {
+    		
+        projContainers = document.querySelectorAll(".collection-item");
+        projContainers.forEach(function (element) {
+            if (element) {
+                let image = element.querySelector(".project-image");
+                let info = element.querySelector(".project-information");
+
+                let detail = element.querySelector(":scope > .project-style");
+                let attribute = detail.querySelector(":scope > .project-style-div");
+                var isMobile = $(window).width() <= 768; 
+                let direction = isMobile ? attribute.getAttribute("data-mobile-direction") : attribute.getAttribute("data-direction");
+                
+              info.onmouseenter = function () {
+                moveHorizontal(image, info, direction);
+                setOpacityOnOtherElements(element, globalTargetOpacity);
+              };
+              info.onmouseleave = function () {
+                resetHorizontal(image, info);
+                setOpacityOnOtherElements(element, "1");
+              };
+                
+            }
+        });
+    }
+
+   function setOpacityOnOtherElements(element, targetOpacity) {
+    $(projContainers).not(element).stop().animate(
+        { opacity: targetOpacity },
+        {
+            duration: 300,
+            step: function (now, fx) {
+                if (fx.prop === "opacity") {
+                    $(this).css("opacity", now);
+                }
+            },
+            queue: false
+        }
+    );
+}
+
+    function resetHorizontal(image, info) {
+      clearInterval(currentMoveAnimId);
+
+      // start animation
+      let resetAnimId = setInterval(frame, 5);
+      let pos = parseFloat(image.style.left);
+      let opacity = parseFloat(info.style.opacity);
+      let projectButton = info.querySelector(":scope > .project-page-button");
+
+      let resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
+      
+      function frame() {
+        if ((resetDirection === 1 && pos <= 0 && opacity < 0) || (resetDirection === -1 && pos >= 0 && opacity < 0)) {
+          image.style.zIndex = "auto";
+          image.style.left = 0;
+          projectButton.style.display = "none";
+          clearInterval(resetAnimId);
+        } else {
+          pos -= resetDirection * moveIncrement;
+          opacity -= opacityIncrement;
+
+          image.style.left = pos + "px";
+          info.style.opacity = opacity + "";
+        }
+      }
+    }
+
+   function moveHorizontal(image, info, direction) {
+    // instant
+    image.style.zIndex = "10";
+    clearInterval(currentMoveAnimId);
+
+    // start animation
+    currentMoveAnimId = setInterval(frame, 5);
+    let pos = 0;
+    let width = image.clientWidth;
+		let projectButton = info.querySelector(":scope > .project-page-button");
+
+
+    function frame() {
+        if (pos >= width) {
+            projectButton.style.display = "block";
+            clearInterval(currentMoveAnimId);
+        } else {
+            let t = pos / width; // Normalized time
+            t = easeOut(t);
+
+            if (direction === "right") {
+                image.style.left = t * width + "px";
+            } else {
+                image.style.left = -t * width + "px";
+            }
+
+            info.style.opacity = t;
+            pos += moveIncrement; // Adjust the moveIncrement as needed
+        }
+    }
+}
