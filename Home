@@ -115,7 +115,7 @@
             return element;
         }
         console.log(element);
-        console.log(element.parentElement);
+        console.log(element.parentNode);
         if (element.parentElement) 
         {
             return findParentWithClass(element.parentElement, className);
