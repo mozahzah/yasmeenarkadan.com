@@ -159,15 +159,13 @@ function OnLoad()
         }
 
         var isTouchExecuted = false;
-        var touchedTarget = null;
         var collectionItemElement = null;
         var capturedElement = null;
         var isScrolling = false;
 
         document.addEventListener('touchstart', function(event) 
         {
-            touchedTarget = event.touches[0].target;
-            collectionItemElement = findParentWithClass(touchedTarget, "collection-item");
+            collectionItemElement = findParentWithClass(event.touches[0].target, "collection-item");
             isScrolling = false;
         });
 
@@ -189,10 +187,7 @@ function OnLoad()
                         startElementAnim(capturedElement);
                         setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
                         var button = findChildWithClass(capturedElement, "project-page-button");
-                        if (button)
-                        {
-                            button.style.display = "block";
-                        }
+                        button.style.display = "block";
                         isTouchExecuted = true;
                     }
                 }
