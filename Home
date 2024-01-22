@@ -209,12 +209,12 @@ function OnLoad()
         {
             if (element) 
             {
-                info.onmouseenter = function () 
+                element.onmouseenter = function () 
                 {
                     startElementAnim(element);
                     setOpacityOnOtherElements(element, globalTargetOpacity);
                 };
-                info.onmouseleave = function () 
+                element.onmouseleave = function () 
                 {
                     resetElement(element);
                     setOpacityOnOtherElements(element, "1");
