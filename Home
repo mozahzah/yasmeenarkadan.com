@@ -1,47 +1,86 @@
-    // Init Variables
-    var projContainers = document.querySelectorAll(".collection-item");
-    var currentMoveAnimId = null;
-    var currentOpAnimId = null;
 
-    // Constants
-    const moveIncrement = 7;
-    const opacityIncrement = 10 / 100;
-    const globalTargetOpacity = "0.0";
-    const posOffset = 60;
-    
-    // Ease-In Function
-    function easeIn(t) 
+function easeIn(t) 
+{
+    return t * t;
+}
+
+function easeOut(t) 
+{
+    return 1 - Math.pow(1 - t, 2);
+}
+
+function findChildWithClass(element, className) 
+{
+    for (const child of element.children) 
     {
-        return t * t;
+        if (child.className.indexOf(className) !== -1) 
+        {
+            return child;
+        }
+        
+        const foundInChild = findChildWithClass(child, className);
+        if (foundInChild !== null) 
+        {
+            return foundInChild;
+        }
+    }
+    return null;
+}
+
+function findParentWithClass(element, className) 
+{
+    if (element.className.indexOf(className) !== -1) 
+    {
+        return element;
     }
 
-    // Ease-Out Function
-    function easeOut(t) 
+    if (element.parentElement) 
     {
-        return 1 - Math.pow(1 - t, 2);
+        return findParentWithClass(element.parentElement, className);
     }
 
-    function setOpacityOnOtherElements(element, targetOpacity) 
+    return null;
+}
+
+// Init Variables
+var projContainers = document.querySelectorAll(".collection-item");
+var currentMoveAnimId = null;
+var currentOpAnimId = null;
+
+// Constants
+const moveIncrement = 7;
+const opacityIncrement = 10 / 100;
+const globalTargetOpacity = "0.0";
+const posOffset = 60;
+
+function setOpacityOnOtherElements(element, targetOpacity) 
+{
+    $(projContainers).not(element).stop().animate(
+        { opacity: targetOpacity },
+        {
+            duration: 300,
+            step: function (now, fx) {
+                if (fx.prop === "opacity") {
+                    $(this).css("opacity", now);
+                }
+            },
+            queue: false
+        }
+    );
+}
+
+function resetElement(element) 
+{
+    if (element)
     {
-         $(projContainers).not(element).stop().animate(
-             { opacity: targetOpacity },
-             {
-                 duration: 300,
-                 step: function (now, fx) {
-                     if (fx.prop === "opacity") {
-                         $(this).css("opacity", now);
-                     }
-                 },
-                 queue: false
-             }
-         );
-     }
- 
-    function resetHorizontal(image, info) 
-    {
+        const image = element.querySelector(".project-image");
+        const info = element.querySelector(".project-information");
+        const imageRect = image.getBoundingClientRect();
+        const imageLeft = imageRect.left;
+        const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
+
         clearInterval(currentMoveAnimId);
 
-        // start animation
         var pos = parseFloat(image.style.left);
         var opacity = parseFloat(info.style.opacity);
         var resetAnimId = setInterval(frame, 5);
@@ -68,38 +107,47 @@
             }
         }
     }
- 
-    function moveHorizontal(image, info, isLeft) 
+}
+
+function startElementAnim(element) 
+{
+    if (element)
     {
+        const image = findChildWithClass(element,"project-image");
+        const info = findChildWithClass(element, "project-information");
+        const projectButton = findChildWithClass(info, "project-page-button");
+        const imageRect = image.getBoundingClientRect();
+        const imageWidth = image.clientWidth;
+        const imageLeft = imageRect.left;
+        const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
+
         // instant
         image.style.zIndex = "10";
         clearInterval(currentMoveAnimId);
 
         // start animation
         currentMoveAnimId = setInterval(frame, 5);
-        const width = image.clientWidth;
-        const projectButton = findChildWithClass(info, "project-page-button");
         
         var pos = 0;
         function frame() 
         {
-            if (pos >= width) 
+            if (pos >= imageWidth) 
             {
                 projectButton.style.display = "block";
                 clearInterval(currentMoveAnimId);
             } 
             else 
             {
-                var t = pos / width; // Normalized time
+                var t = pos / imageWidth; // Normalized time
                 t = easeOut(t);
 
                 if (isLeft) 
                 {
-                    image.style.left = t * width + "px";
+                    image.style.left = t * imageWidth + "px";
                 } 
                 else 
                 {
-                    image.style.left = -t * width + "px";
+                    image.style.left = -t * imageWidth + "px";
                 }
 
                 info.style.opacity = t;
@@ -107,122 +155,72 @@
             }
         }
     }
+}
 
-    function findChildWithClass(element, className) 
+function OnLoad()
+{	
+    const isMobile = $(window).width() <= 768;
+    if (isMobile)
     {
-        for (const child of element.children) 
+        var isTouchExecuted = false;
+        var touchedTarget = null;
+        var capturedElement = null;
+        var isScrolling = false;
+
+        document.addEventListener('touchstart', function(event) {
+            touchedTarget = findParentWithClass(event.touches[0].target, "collection-item");
+            isScrolling = false;
+        });
+
+        document.addEventListener('touchmove', function(event) {
+            isScrolling = true;
+        });
+        
+        document.addEventListener('touchend', 
+        function HandleDocumentTouchStart(event)
         {
-            if (child.className.indexOf(className) !== -1) 
+            if (!isScrolling)
             {
-                return child;
-            }
-            
-            const foundInChild = findChildWithClass(child, className);
-            if (foundInChild !== null) 
-            {
-                return foundInChild;
-            }
-        }
-        return null;
-    }
-
-    function findParentWithClass(element, className) 
-    {
-        if (element.className.indexOf(className) !== -1) 
-        {
-            return element;
-        }
-
-        if (element.parentElement) 
-        {
-            return findParentWithClass(element.parentElement, className);
-        }
-    
-        return null;
-    }
-
-    function OnLoad()
-    {	
-        const isMobile = $(window).width() <= 768;
-        if (isMobile)
-        {
-            var isTouchExecuted = false;
-            var touchedTarget = null;
-            var capturedElement = null;
-            var isScrolling = false;
-
-            document.addEventListener('touchstart', function(event) {
-                touchedTarget = findParentWithClass(event.touches[0].target, "collection-item");
-                isScrolling = false;
-            });
-
-            document.addEventListener('touchmove', function(event) {
-                isScrolling = true;
-            });
-            
-            document.addEventListener('touchend', 
-            function HandleDocumentTouchStart(event)
-            {
-                if (!isScrolling)
+                if (!isTouchExecuted)
                 {
-                    if (!isTouchExecuted)
+                    if (touchedTarget)
                     {
-                        if (touchedTarget)
-                        {
-                            capturedElement = touchedTarget;
-                            const image = capturedElement.querySelector(".project-image");
-                            const info = capturedElement.querySelector(".project-information");
-                            const imageRect = image.getBoundingClientRect();
-                            const imageLeft = imageRect.left;
-                            const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
-
-                            moveHorizontal(image, info, isLeft);
-                            setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
-                            isTouchExecuted = true;
-                        }
-                    }
-                    else 
-                    {
-                        const image = capturedElement.querySelector(".project-image");
-                        const info = capturedElement.querySelector(".project-information");
-                        const imageRect = image.getBoundingClientRect();
-                        const imageLeft = imageRect.left;
-                        const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
-
-                        resetHorizontal(image, info);
-                        setOpacityOnOtherElements(capturedElement, "1");
-
-                        capturedElement = null;
-                        isTouchExecuted = false;
+                        capturedElement = touchedTarget;
+                        startElementAnim(capturedElement);
+                        setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
+                        isTouchExecuted = true;
                     }
                 }
-            }, false);
-        }
-        else
-        {
-            projContainers = document.querySelectorAll(".collection-item");
-            projContainers.forEach(function (element) 
-            {
-                if (element) 
+                else 
                 {
-                    const image = element.querySelector(".project-image");
-                    const info = element.querySelector(".project-information");
-                    const imageRect = image.getBoundingClientRect();
-                    const imageLeft = imageRect.left;
-                    const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
-                    
-                    info.onmouseenter = function () 
-                    {
-                        moveHorizontal(image, info, isLeft);
-                        setOpacityOnOtherElements(element, globalTargetOpacity);
-                    };
-                    info.onmouseleave = function () 
-                    {
-                        resetHorizontal(image, info);
-                        setOpacityOnOtherElements(element, "1");
-                    };
+                    resetElement(element);
+                    setOpacityOnOtherElements(capturedElement, "1");
+
+                    capturedElement = null;
+                    isTouchExecuted = false;
                 }
-            });
-        }
+            }
+        }, false);
     }
+    else
+    {
+        projContainers = document.querySelectorAll(".collection-item");
+        projContainers.forEach(function (element) 
+        {
+            if (element) 
+            {
+                info.onmouseenter = function () 
+                {
+                    startElementAnim(element);
+                    setOpacityOnOtherElements(element, globalTargetOpacity);
+                };
+                info.onmouseleave = function () 
+                {
+                    resetElement(element);
+                    setOpacityOnOtherElements(element, "1");
+                };
+            }
+        });
+    }
+}
 
