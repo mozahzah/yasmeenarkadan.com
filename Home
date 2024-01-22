@@ -197,8 +197,8 @@ function OnLoad()
                 {
                     resetElement(openedCollectionItemElement);
                     setOpacityOnOtherElements(openedCollectionItemElement, "1");
-                    var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
-                    button.style.display = "none";
+                    //var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
+                    //button.style.display = "none";
 
                     openedCollectionItemElement = null;
                     isTouchExecuted = false;
