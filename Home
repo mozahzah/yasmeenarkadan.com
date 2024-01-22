@@ -46,7 +46,7 @@
         var opacity = parseFloat(info.style.opacity);
 
         const resetAnimId = setInterval(frame, 5);
-        const projectButton = info.querySelectorAll(".project-page-button");
+        const projectButton = findChildithClass(info, ".project-page-button");
         const resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
         
         function frame() 
@@ -78,7 +78,7 @@
         // start animation
         currentMoveAnimId = setInterval(frame, 5);
         const width = image.clientWidth;
-        const projectButton = info.querySelectorAll(".project-page-button");
+        const projectButton = findChildithClass(info, ".project-page-button");
         
         var pos = 0;
         function frame() 
@@ -106,6 +106,19 @@
                 pos += moveIncrement;
             }
         }
+    }
+
+    function findChildithClass(element, className) 
+    {
+        for (const child of element.children)
+        {
+            if (child.className.indexOf(className) !== -1) 
+            {
+                return element;
+            }
+            return findChildithClass(child, className);
+        }
+        return null;
     }
 
     function findParentWithClass(element, className) 
