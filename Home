@@ -75,12 +75,12 @@ function resetElement(element)
     {
         const image = element.querySelector(".project-image");
         const info = element.querySelector(".project-information");
-        const resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
         clearInterval(currentMoveAnimId);
 
         var pos = parseFloat(image.style.left);
         var opacity = parseFloat(info.style.opacity);
         var resetAnimId = setInterval(frame, 5);
+        const resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
 
         function frame() 
         {
