@@ -153,17 +153,26 @@ function OnLoad()
     const isMobile = $(window).width() <= 768;
     if (isMobile)
     {
+        for (var button of document.querySelectorAll(".project-page-button"))
+        {
+            button.style.display = "none";
+        }
+
         var isTouchExecuted = false;
         var touchedTarget = null;
+        var collectionItemElement = null;
         var capturedElement = null;
         var isScrolling = false;
 
-        document.addEventListener('touchstart', function(event) {
-            touchedTarget = findParentWithClass(event.touches[0].target, "collection-item");
+        document.addEventListener('touchstart', function(event) 
+        {
+            touchedTarget = event.touches[0].target;
+            collectionItemElement = findParentWithClass(touchedTarget, "collection-item");
             isScrolling = false;
         });
 
-        document.addEventListener('touchmove', function(event) {
+        document.addEventListener('touchmove', function(event) 
+        {
             isScrolling = true;
         });
         
@@ -174,11 +183,16 @@ function OnLoad()
             {
                 if (!isTouchExecuted)
                 {
-                    if (touchedTarget)
+                    if (collectionItemElement)
                     {
-                        capturedElement = touchedTarget;
+                        capturedElement = collectionItemElement;
                         startElementAnim(capturedElement);
                         setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
+                        var button = findChildWithClass(capturedElement, "project-page-button");
+                        if (button)
+                        {
+                            button.style.display = "block";
+                        }
                         isTouchExecuted = true;
                     }
                 }
@@ -196,29 +210,29 @@ function OnLoad()
     else
     {
         projContainers = document.querySelectorAll(".collection-item");
-        projContainers.forEach(function (element)
+        projContainers.forEach(function (collectionItemElement)
         {
-            if (element) 
+            if (collectionItemElement) 
             {
-                const info = findChildWithClass(element, "project-information");
+                const info = findChildWithClass(collectionItemElement, "project-information");
                 info.onmouseenter = function () 
                 {
-                    startElementAnim(element);
-                    setOpacityOnOtherElements(element, globalTargetOpacity);
+                    startElementAnim(collectionItemElement);
+                    setOpacityOnOtherElements(collectionItemElement, globalTargetOpacity);
                 };
                 info.onmouseleave = function () 
                 {
-                    resetElement(element);
-                    setOpacityOnOtherElements(element, "1");
+                    resetElement(collectionItemElement);
+                    setOpacityOnOtherElements(collectionItemElement, "1");
                 };
 
-                const projectButtonWrapper = findChildWithClass(element, "project-page-button-wrapper");
+                const projectButtonWrapper = findChildWithClass(collectionItemElement, "project-page-button-wrapper");
                 if (projectButtonWrapper)
                 {
                     projectButtonWrapper.onmouseenter = function()
                     {
                         const projectIcon = findChildWithClass(projectButtonWrapper, "project-icon");
-                        const projectIconHovered = findChildWithClass(element, "project-icon-hovered");
+                        const projectIconHovered = findChildWithClass(collectionItemElement, "project-icon-hovered");
                         projectIcon.style.opacity = "0.0";
                         projectIconHovered.style.opacity = "1.0";
                     };
@@ -226,7 +240,7 @@ function OnLoad()
                     projectButtonWrapper.onmouseleave = function()
                     {
                         const projectIcon = findChildWithClass(projectButtonWrapper, "project-icon");
-                        const projectIconHovered = findChildWithClass(element, "project-icon-hovered");
+                        const projectIconHovered = findChildWithClass(collectionItemElement, "project-icon-hovered");
                         projectIcon.style.opacity = "1.0";
                         projectIconHovered.style.opacity = "0.0";
                     };
