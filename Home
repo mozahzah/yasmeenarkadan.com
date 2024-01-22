@@ -75,26 +75,19 @@ function resetElement(element)
     {
         const image = element.querySelector(".project-image");
         const info = element.querySelector(".project-information");
-        const imageRect = image.getBoundingClientRect();
-        const imageLeft = imageRect.left;
-        const isLeft = imageLeft < window.innerWidth / 2 ? true : false;
-
+        const resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
         clearInterval(currentMoveAnimId);
 
         var pos = parseFloat(image.style.left);
         var opacity = parseFloat(info.style.opacity);
         var resetAnimId = setInterval(frame, 5);
 
-        const projectButton = findChildWithClass(info, "project-page-button");
-        const resetDirection = pos >= 0 ? 1 : -1; // Adjust the reset direction based on the original movement
-        
         function frame() 
         {
             if ((resetDirection === 1 && pos <= 0 && opacity < 0) || (resetDirection === -1 && pos >= 0 && opacity < 0)) 
             {
                 image.style.zIndex = "auto";
                 image.style.left = 0;
-                projectButton.style.display = "none";
                 clearInterval(resetAnimId);
             } 
             else 
@@ -115,7 +108,6 @@ function startElementAnim(element)
     {
         const image = findChildWithClass(element,"project-image");
         const info = findChildWithClass(element, "project-information");
-        const projectButton = findChildWithClass(info, "project-page-button");
         const imageRect = image.getBoundingClientRect();
         const imageWidth = image.clientWidth;
         const imageLeft = imageRect.left;
@@ -133,7 +125,6 @@ function startElementAnim(element)
         {
             if (pos >= imageWidth) 
             {
-                projectButton.style.display = "block";
                 clearInterval(currentMoveAnimId);
             } 
             else 
