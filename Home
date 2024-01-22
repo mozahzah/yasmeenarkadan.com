@@ -161,6 +161,7 @@ function OnLoad()
         var isTouchExecuted = false;
         var touchedTarget = null;
         var capturedCollectionItemElement = null;
+        var openedCollectionItemElement = null;
         var isScrolling = false;
 
         document.addEventListener('touchstart', function(event) 
@@ -184,6 +185,7 @@ function OnLoad()
                 {
                     if (capturedCollectionItemElement)
                     {
+                        openedCollectionItemElement = capturedCollectionItemElement;
                         startElementAnim(capturedCollectionItemElement);
                         setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
                         var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
@@ -193,15 +195,12 @@ function OnLoad()
                 }
                 else 
                 {
-                    if (findParentWithClass(touchedTarget, "project-page-button-wrapper"))
-                    {
-                        var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
-                        button.style.display = "none";
-                    }
-                    resetElement(capturedCollectionItemElement);
-                    setOpacityOnOtherElements(capturedCollectionItemElement, "1");
+                    resetElement(openedCollectionItemElement);
+                    setOpacityOnOtherElements(openedCollectionItemElement, "1");
+                    var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
+                    button.style.display = "none";
 
-                    capturedCollectionItemElement = null;
+                    openedCollectionItemElement = null;
                     isTouchExecuted = false;
                 }
             }
