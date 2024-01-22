@@ -205,16 +205,17 @@ function OnLoad()
     else
     {
         projContainers = document.querySelectorAll(".collection-item");
-        projContainers.forEach(function (element) 
+        projContainers.forEach(function (element)
         {
             if (element) 
             {
-                element.onmouseenter = function () 
+                const info = findChildWithClass(element, "project-information");
+                info.onmouseenter = function () 
                 {
                     startElementAnim(element);
                     setOpacityOnOtherElements(element, globalTargetOpacity);
                 };
-                element.onmouseleave = function () 
+                info.onmouseleave = function () 
                 {
                     resetElement(element);
                     setOpacityOnOtherElements(element, "1");
