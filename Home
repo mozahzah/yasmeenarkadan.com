@@ -193,7 +193,7 @@ function OnLoad()
                 }
                 else 
                 {
-                    resetElement(element);
+                    resetElement(capturedElement);
                     setOpacityOnOtherElements(capturedElement, "1");
 
                     capturedElement = null;
