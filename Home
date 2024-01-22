@@ -130,6 +130,7 @@ function startElementAnim(element)
             else 
             {
                 var t = pos / imageWidth; // Normalized time
+                
                 t = easeOut(t);
 
                 if (isLeft) 
