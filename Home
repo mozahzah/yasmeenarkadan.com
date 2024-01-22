@@ -159,13 +159,14 @@ function OnLoad()
         }
 
         var isTouchExecuted = false;
-        var collectionItemElement = null;
-        var capturedElement = null;
+        var touchedTarget = null;
+        var capturedCollectionItemElement = null;
         var isScrolling = false;
 
         document.addEventListener('touchstart', function(event) 
         {
-            collectionItemElement = findParentWithClass(event.touches[0].target, "collection-item");
+            touchedTarget = event.touches[0].target;
+            capturedCollectionItemElement = findParentWithClass(touchedTarget, "collection-item");
             isScrolling = false;
         });
 
@@ -181,22 +182,26 @@ function OnLoad()
             {
                 if (!isTouchExecuted)
                 {
-                    if (collectionItemElement)
+                    if (capturedCollectionItemElement)
                     {
-                        capturedElement = collectionItemElement;
-                        startElementAnim(capturedElement);
-                        setOpacityOnOtherElements(capturedElement, globalTargetOpacity);
-                        var button = findChildWithClass(capturedElement, "project-page-button");
+                        startElementAnim(capturedCollectionItemElement);
+                        setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
+                        var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
                         button.style.display = "block";
                         isTouchExecuted = true;
                     }
                 }
                 else 
                 {
-                    resetElement(capturedElement);
-                    setOpacityOnOtherElements(capturedElement, "1");
+                    if (findParentWithClass(touchedTarget, "project-page-button-wrapper"))
+                    {
+                        var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                        button.style.display = "none";
+                    }
+                    resetElement(capturedCollectionItemElement);
+                    setOpacityOnOtherElements(capturedCollectionItemElement, "1");
 
-                    capturedElement = null;
+                    capturedCollectionItemElement = null;
                     isTouchExecuted = false;
                 }
             }
