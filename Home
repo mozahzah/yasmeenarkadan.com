@@ -197,8 +197,8 @@ function OnLoad()
                 {
                     resetElement(openedCollectionItemElement);
                     setOpacityOnOtherElements(openedCollectionItemElement, "1");
-                    //var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
-                    //button.style.display = "none";
+                    var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
+                    button.style.display = "none";
 
                     openedCollectionItemElement = null;
                     isTouchExecuted = false;
@@ -225,20 +225,20 @@ function OnLoad()
                     setOpacityOnOtherElements(collectionItemElement, "1");
                 };
 
-                const projectButtonWrapper = findChildWithClass(collectionItemElement, "project-page-button-wrapper");
-                if (projectButtonWrapper)
+                const projectIconWrapper = findChildWithClass(collectionItemElement, "project-page-icon-wrapper");
+                if (projectIconWrapper)
                 {
-                    projectButtonWrapper.onmouseenter = function()
+                    projectIconWrapper.onmouseenter = function()
                     {
-                        const projectIcon = findChildWithClass(projectButtonWrapper, "project-icon");
+                        const projectIcon = findChildWithClass(projectIconWrapper, "project-icon");
                         const projectIconHovered = findChildWithClass(collectionItemElement, "project-icon-hovered");
                         projectIcon.style.opacity = "0.0";
                         projectIconHovered.style.opacity = "1.0";
                     };
 
-                    projectButtonWrapper.onmouseleave = function()
+                    projectIconWrapper.onmouseleave = function()
                     {
-                        const projectIcon = findChildWithClass(projectButtonWrapper, "project-icon");
+                        const projectIcon = findChildWithClass(projectIconWrapper, "project-icon");
                         const projectIconHovered = findChildWithClass(collectionItemElement, "project-icon-hovered");
                         projectIcon.style.opacity = "1.0";
                         projectIconHovered.style.opacity = "0.0";
