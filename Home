@@ -199,16 +199,19 @@ function OnLoad()
             {
                 if (!isTouchExecuted)
                 {
-                    if (capturedCollectionItemElement)
+                    if (touchedTarget.className.indexOf("project-page-button") === -1)
                     {
-                        openedCollectionItemElement = capturedCollectionItemElement;
-                        startElementAnim(capturedCollectionItemElement);
-                        setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
-                        setTimeout(function()
-                            {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
-                            button.style.display = "block";}, 500);
-                        
-                        isTouchExecuted = true;
+                        if (capturedCollectionItemElement)
+                        {
+                            openedCollectionItemElement = capturedCollectionItemElement;
+                            startElementAnim(capturedCollectionItemElement);
+                            setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
+                            setTimeout(function()
+                                {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                                button.style.display = "block";}, 500);
+                            
+                            isTouchExecuted = true;
+                        }
                     }
                 }
                 else 
