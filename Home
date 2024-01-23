@@ -204,8 +204,9 @@ function OnLoad()
                         openedCollectionItemElement = capturedCollectionItemElement;
                         startElementAnim(capturedCollectionItemElement);
                         setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
-                        var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
-                        button.style.display = "block";
+                        setTimeout(function()
+                            {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                            button.style.display = "block";}, 500);
                         
                         isTouchExecuted = true;
                     }
