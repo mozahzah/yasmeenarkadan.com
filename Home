@@ -199,31 +199,31 @@ function OnLoad()
             {
                 if (!isTouchExecuted)
                 {
-                    if (touchedTarget.className.indexOf("project-page-button") === -1)
+                    if (capturedCollectionItemElement)
                     {
-                        if (capturedCollectionItemElement)
-                        {
-                            openedCollectionItemElement = capturedCollectionItemElement;
-                            startElementAnim(capturedCollectionItemElement);
-                            setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
-                            setTimeout(function()
-                                {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
-                                button.style.display = "block";}, 500);
-                            
-                            isTouchExecuted = true;
-                        }
+                        openedCollectionItemElement = capturedCollectionItemElement;
+                        startElementAnim(capturedCollectionItemElement);
+                        setOpacityOnOtherElements(capturedCollectionItemElement, globalTargetOpacity);
+                        setTimeout(function()
+                            {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                            button.style.display = "block";}, 500);
+                        
+                        isTouchExecuted = true;
                     }
                 }
                 else 
                 {
-                    resetElement(openedCollectionItemElement);
-                    setOpacityOnOtherElements(openedCollectionItemElement, "1");
-                    setTimeout(function()
-                            {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
-                            button.style.display = "none";}, 500);
+                    if (touchedTarget.className.indexOf("project-page-button") === -1)
+                    {
+                        resetElement(openedCollectionItemElement);
+                        setOpacityOnOtherElements(openedCollectionItemElement, "1");
+                        setTimeout(function()
+                                {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                                button.style.display = "none";}, 500);
 
-                    openedCollectionItemElement = null;
-                    isTouchExecuted = false;
+                        openedCollectionItemElement = null;
+                        isTouchExecuted = false;
+                    }
                 }
             }
         }, false);
