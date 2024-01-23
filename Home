@@ -157,7 +157,7 @@ function OnLoad()
         for (var button of document.querySelectorAll(".project-page-button"))
         {
             button.style.display = "none";
-            button.style.outline = "none";
+            button.style.webkitTapHighlightColor = "transparent";
         }
 
         var isTouchExecuted = false;
@@ -215,7 +215,7 @@ function OnLoad()
     {
         for (var button of document.querySelectorAll(".project-page-button"))
         {
-            button.style.outline = "none";
+            button.style.webkitTapHighlightColor = "transparent";
         }
 
         projContainers = document.querySelectorAll(".collection-item");
