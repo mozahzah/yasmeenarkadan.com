@@ -218,7 +218,7 @@ function OnLoad()
                         resetElement(openedCollectionItemElement);
                         setOpacityOnOtherElements(openedCollectionItemElement, "1");
                         setTimeout(function()
-                                {var button = findChildWithClass(capturedCollectionItemElement, "project-page-button");
+                                {var button = findChildWithClass(openedCollectionItemElement, "project-page-button");
                                 button.style.display = "none";}, 100);
 
                         openedCollectionItemElement = null;
