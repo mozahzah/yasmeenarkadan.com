@@ -157,6 +157,7 @@ function OnLoad()
         for (var button of document.querySelectorAll(".project-page-button"))
         {
             button.style.display = "none";
+            button.style.outline = "none";
         }
 
         var isTouchExecuted = false;
@@ -212,6 +213,11 @@ function OnLoad()
     }
     else
     {
+        for (var button of document.querySelectorAll(".project-page-button"))
+        {
+            button.style.outline = "none";
+        }
+
         projContainers = document.querySelectorAll(".collection-item");
         projContainers.forEach(function (collectionItemElement)
         {
