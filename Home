@@ -48,7 +48,7 @@ var currentMoveAnimId = null;
 var currentOpAnimId = null;
 
 // Constants
-const moveIncrement = 7;
+const moveIncrement = 10;
 const opacityIncrement = 10 / 100;
 const globalTargetOpacity = "0.0";
 const posOffset = 60;
